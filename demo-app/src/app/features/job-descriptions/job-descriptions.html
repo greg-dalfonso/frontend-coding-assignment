@@ -1,0 +1,16 @@
+@let state = data();
+
+@if (state.state === 'done') {
+  <app-job-descriptions-bar-chart
+    [jobDescriptions]="state.data.searches"
+  ></app-job-descriptions-bar-chart>
+  <app-job-descriptions-table></app-job-descriptions-table>
+}
+
+@if (state.state === 'error') {
+  <p>Failed to load job descriptions. Please Try Again.</p>
+}
+
+@if (state.state === 'loading') {
+  <p>Loading...</p>
+}
