@@ -1,26 +1,81 @@
-import { Component, computed, input } from '@angular/core';
-import { JobDescription } from '../../job-descriptions.type';
-import { JsonPipe } from '@angular/common';
+import { Component, computed, EventEmitter, input, Output, ViewChild } from '@angular/core';
+import { ChartModule, UIChart } from 'primeng/chart';
+import { ChartData, ChartOptions } from 'chart.js';
+
+export interface MonthCount {
+  month: number;
+  count: number;
+}
+
+const barColorDefault = 'rgb(175, 214, 218)';
+const barColorActive = 'rgb(78, 157, 168)';
 
 @Component({
   selector: 'app-job-descriptions-bar-chart',
-  imports: [JsonPipe],
+  imports: [ChartModule],
   templateUrl: './job-descriptions-bar-chart.html',
   styleUrl: './job-descriptions-bar-chart.scss',
 })
 export class JobDescriptionsBarChart {
-  jobDescriptions = input.required<JobDescription[]>();
+  @ViewChild(UIChart) private chartRef!: UIChart;
+  data = input.required<MonthCount[]>();
+  @Output() monthSelected: EventEmitter<number> = new EventEmitter();
 
-  countsByMonth = computed(() => {
-    const countByMonth = new Map<number, number>();
+  private activeIndex: number | null = null;
 
-    for (const job of this.jobDescriptions()) {
-      const month = new Date(job.websiteDatePublished).getMonth() + 1;
-      countByMonth.set(month, (countByMonth.get(month) ?? 0) + 1);
-    }
+  protected readonly chartOptions: ChartOptions<'bar'> = {
+    onHover: (event: any, elements: any[]) => {
+      const hoveredIndex = elements[0]?.index;
+      const isActive = hoveredIndex !== undefined && hoveredIndex === this.activeIndex;
+      event.native.target.style.cursor = elements.length && !isActive ? 'pointer' : 'default';
+    },
+    maintainAspectRatio: false,
+    plugins: {
+      tooltip: {
+        callbacks: {
+          label: (context) => `${context.parsed.y}`,
+        },
+      },
+      legend: {
+        display: true,
+        position: 'bottom',
+        onClick: () => {},
+        labels: {
+          generateLabels: () => [
+            {
+              text: '# of Job Descriptions',
+              fillStyle: barColorDefault,
+              strokeStyle: barColorDefault,
+            },
+          ],
+        },
+      },
+    },
+    scales: {
+      x: { grid: { display: false } },
+    },
+  };
 
-    return [...countByMonth.entries()]
-      .map(([month, count]) => ({ month, count }))
-      .sort((a, b) => a.month - b.month);
+  protected chartData = computed((): ChartData<'bar'> => {
+    // Using this to get month names for the user's current locale. Overkill for this demo app
+    // but something I would consider for production application with international users.
+    const formatMonth = new Intl.DateTimeFormat('default', { month: 'long' });
+
+    return {
+      labels: this.data().map(({ month }) => formatMonth.format(new Date(2000, month))),
+      datasets: [{ data: this.data().map(({ count }) => count), backgroundColor: barColorDefault }],
+    };
   });
+
+  protected onBarClick(event: { element: { index: number } }): void {
+    const index = event.element.index;
+    this.activeIndex = index;
+    this.monthSelected.emit(this.data()[index].month);
+
+    // Update colors directly on the Chart.js instance to avoid re-rendering the chart.
+    this.chartRef.chart.data.datasets[0].backgroundColor = this.data().map((_, i) =>
+      i === index ? barColorActive : barColorDefault
+    );
+    this.chartRef.chart.update('none');
+  }
 }

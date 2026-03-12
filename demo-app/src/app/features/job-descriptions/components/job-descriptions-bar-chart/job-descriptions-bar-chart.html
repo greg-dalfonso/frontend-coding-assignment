@@ -1,2 +1,2 @@
-<p>job-descriptions-bar-chart works!</p>
-{{countsByMonth() | json}}
+<p-chart [style.height.%]="100" type="bar" [data]="chartData()" [options]="chartOptions" (onDataSelect)="onBarClick($event)" />
+

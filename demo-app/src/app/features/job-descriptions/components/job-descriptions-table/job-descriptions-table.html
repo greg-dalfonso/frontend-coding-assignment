@@ -1,1 +1,24 @@
-<p>job-descriptions-table works!</p>
+<p-table
+  [value]="data()"
+  [scrollable]="true"
+  scrollHeight="flex"
+  [showGridlines]="true"
+  [stripedRows]="true"
+>
+  <ng-template #header>
+    <tr style="background-color: #f9fafb">
+      <th style="min-width: 250px">Title</th>
+      <th style="min-width: 200px">Organization</th>
+      <th style="min-width: 150px">Location</th>
+      <th style="min-width: 150px">Date Published</th>
+    </tr>
+  </ng-template>
+  <ng-template #body let-job>
+    <tr>
+      <td>{{ job.websiteTitle }}</td>
+      <td>{{ job.websiteOrganization }}</td>
+      <td>{{ job.websiteLocation }}</td>
+      <td>{{ job.websiteDatePublished }}</td>
+    </tr>
+  </ng-template>
+</p-table>

@@ -1,9 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
+import { JobDescription } from '../../types/job-descriptions.type';
+import { TableModule } from 'primeng/table';
 
 @Component({
   selector: 'app-job-descriptions-table',
-  imports: [],
+  imports: [TableModule],
   templateUrl: './job-descriptions-table.html',
   styleUrl: './job-descriptions-table.scss',
 })
-export class JobDescriptionsTable {}
+export class JobDescriptionsTable {
+  data = input.required<JobDescription[]>();
+}

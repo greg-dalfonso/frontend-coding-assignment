@@ -1,16 +1,34 @@
-@let state = data();
+@let data = state();
 
-@if (state.state === 'done') {
-  <app-job-descriptions-bar-chart
-    [jobDescriptions]="state.data.searches"
-  ></app-job-descriptions-bar-chart>
-  <app-job-descriptions-table></app-job-descriptions-table>
-}
+<h1 class="title">Job Descriptions</h1>
 
-@if (state.state === 'error') {
-  <p>Failed to load job descriptions. Please Try Again.</p>
-}
+<div class="content">
+  @if (data.status === 'loading') {
+    <p>Loading...</p>
+  }
 
-@if (state.state === 'loading') {
-  <p>Loading...</p>
-}
+  @if (data.status === 'error') {
+    <p>Failed to load job descriptions. Please Try Again.</p>
+  }
+
+  @if (data.status === 'done' && !hasData()) {
+    <p>No Results found.</p>
+  }
+
+  @if (data.status === 'done' && hasData()) {
+    <app-job-descriptions-bar-chart
+      class="chart"
+      [data]="monthCounts()"
+      (monthSelected)="monthSelected.set($event)"
+    ></app-job-descriptions-bar-chart>
+
+    @if (monthSelected() != null) {
+      <app-job-descriptions-table
+        class="table"
+        [data]="selectedJobs()"
+      ></app-job-descriptions-table>
+    } @else {
+      <p>Select a bar from the chart above to view details.</p>
+    }
+  }
+</div>

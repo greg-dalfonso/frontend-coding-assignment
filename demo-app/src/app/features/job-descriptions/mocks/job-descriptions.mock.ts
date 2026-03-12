@@ -1,4 +1,4 @@
-import { JobDescriptionApiResponse } from './job-descriptions.type';
+import { JobDescriptionApiResponse } from '../types/job-descriptions.type';
 
 export const mockJobDescriptions = {
   count: 371,

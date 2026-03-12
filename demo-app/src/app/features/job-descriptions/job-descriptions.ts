@@ -1,22 +1,15 @@
-import { Component, DestroyRef, OnInit, signal } from '@angular/core';
+import { Component, computed, DestroyRef, signal } from '@angular/core';
 import { JobDescriptionsBarChart } from './components/job-descriptions-bar-chart/job-descriptions-bar-chart';
 import { JobDescriptionsTable } from './components/job-descriptions-table/job-descriptions-table';
 import { HttpClient } from '@angular/common/http';
-import { mockJobDescriptions } from './job-descriptions.mock';
-import { JobDescriptionApiResponse } from './job-descriptions.type';
+import { mockJobDescriptions } from './mocks/job-descriptions.mock';
+import { JobDescriptionsByMonth } from './types/job-descriptions.type';
+import { toJobDescriptionsByMonth } from './utils/job-descriptions.util';
 
 type JobDescriptionsState =
-  | {
-      state: 'loading';
-    }
-  | {
-      state: 'error';
-      error: string;
-    }
-  | {
-      state: 'done';
-      data: JobDescriptionApiResponse;
-    };
+  | { status: 'loading' }
+  | { status: 'error'; error: string }
+  | { status: 'done'; response: JobDescriptionsByMonth };
 
 @Component({
   selector: 'app-job-descriptions',
@@ -24,28 +17,48 @@ type JobDescriptionsState =
   templateUrl: './job-descriptions.html',
   styleUrl: './job-descriptions.scss',
 })
-export class JobDescriptions implements OnInit {
-  protected data = signal<JobDescriptionsState>({ state: 'loading' });
+export class JobDescriptions {
+  protected state = signal<JobDescriptionsState>({ status: 'loading' });
+  protected monthSelected = signal<number | null>(null);
+
+  private response = computed(() => {
+    const state = this.state();
+    return state.status === 'done' ? state.response : null;
+  });
+
+  protected monthCounts = computed(() => {
+    const response = this.response();
+    if (!response) return [];
+    return Array.from({ length: 12 }, (_, month) => ({
+      month,
+      count: response[month]?.jobDescriptions.length ?? 0,
+    }));
+  });
+
+  protected hasData = computed(() => this.monthCounts().some(({ count }) => count > 0));
+
+  protected selectedJobs = computed(() => {
+    const month = this.monthSelected();
+    return month !== null ? (this.response()?.[month]?.jobDescriptions ?? []) : [];
+  });
 
   constructor(
     private httpClient: HttpClient,
     private destroyRef: DestroyRef
-  ) {}
-
-  ngOnInit() {
+  ) {
     this.loadData();
   }
 
   loadData(): void {
-    this.data.set({ state: 'loading' });
+    this.state.set({ status: 'loading' });
 
     // TODO: Uncomment. Using mock data to prevent constantly pinging the API while developing the UI.
     setTimeout(() => {
-      this.data.set({
-        state: 'done',
-        data: mockJobDescriptions,
+      this.state.set({
+        status: 'done',
+        response: toJobDescriptionsByMonth(mockJobDescriptions),
       });
-    }, 3000);
+    }, 500);
 
     // this.httpClient
     //   // In a production application I would use an environment variable for the base URL.
@@ -53,7 +66,7 @@ export class JobDescriptions implements OnInit {
     //   .pipe(takeUntilDestroyed(this.destroyRef))
     //   .subscribe({
     //     next: (response) => {
-    //       this.data.set({ state: 'done', data: response });
+    //       this.data.set({ state: 'done', data: categorizeJobDescriptionApiResponse(response) });
     //     },
     //     error: (error) => {
     //       // If we had a logging service, I would log to the service here.
