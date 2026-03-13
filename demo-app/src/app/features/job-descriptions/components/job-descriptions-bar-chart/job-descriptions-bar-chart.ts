@@ -80,6 +80,8 @@ export class JobDescriptionsBarChart {
     };
   });
 
+  // Partial update applied via [merge] to highlight the active bar without
+  // triggering a full chart re-render (which would reset the dataZoom position).
   protected activeSeriesColors = computed(
     (): EChartsOption => ({
       series: [

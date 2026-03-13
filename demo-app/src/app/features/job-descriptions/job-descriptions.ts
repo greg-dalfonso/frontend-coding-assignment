@@ -24,25 +24,25 @@ export class JobDescriptions {
   protected state = signal<JobDescriptionsState>({ status: 'loading' });
   protected monthSelected = signal<number | null>(null);
 
-  private response = computed(() => {
+  protected data = computed(() => {
     const state = this.state();
     return state.status === 'done' ? state.data : null;
   });
 
+  // Computes the count of job descriptions for each month, which is used for the bar chart.
   protected monthCounts = computed(
     () =>
-      this.response()?.map(({ month, year, jobDescriptions }) => ({
+      this.data()?.map(({ month, year, jobDescriptions }) => ({
         month,
         year,
         count: jobDescriptions.length,
       })) ?? []
   );
 
-  protected hasData = computed(() => this.monthCounts().some(({ count }) => count > 0));
-
+  // Computes the job descriptions for the selected month, which is used for the table.
   protected selectedJobs = computed(() => {
     const i = this.monthSelected();
-    return i !== null ? (this.response()?.[i]?.jobDescriptions ?? []) : [];
+    return i !== null ? (this.data()?.[i]?.jobDescriptions ?? []) : [];
   });
 
   constructor(
@@ -52,7 +52,7 @@ export class JobDescriptions {
     this.loadData();
   }
 
-  loadData(): void {
+  protected loadData(): void {
     this.state.set({ status: 'loading' });
 
     this.httpClient

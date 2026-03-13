@@ -20,7 +20,7 @@ export function toJobDescriptionsByMonth(
     const date = new Date(job.websiteDatePublished);
     const year = date.getFullYear();
     const month = date.getMonth();
-    const ordinal = toOrdinal(year, month);
+    const ordinal = year * 12 + month;
 
     if (!grouped.has(ordinal)) {
       grouped.set(ordinal, { year, month, jobDescriptions: [] });
@@ -45,8 +45,4 @@ export function toJobDescriptionsByMonth(
     const month = ordinal % 12;
     return grouped.get(ordinal) ?? { year, month, jobDescriptions: [] };
   });
-}
-
-function toOrdinal(year: number, month: number): number {
-  return year * 12 + month;
 }
