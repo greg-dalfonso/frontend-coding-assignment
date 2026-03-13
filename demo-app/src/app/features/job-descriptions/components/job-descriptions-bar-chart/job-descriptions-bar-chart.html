@@ -1,1 +1,1 @@
-<div echarts [options]="chartOptions()" (chartClick)="onChartClick($event)" style="height: 100%"></div>
+<div echarts [options]="chartOptions()" [merge]="activeSeriesColors()" (chartClick)="onChartClick($event)" style="height: 100%"></div>

@@ -1,6 +1,6 @@
-import { Component, input } from '@angular/core';
+import { Component, effect, input, ViewChild } from '@angular/core';
 import { JobDescription } from '../../types/job-descriptions.type';
-import { TableModule } from 'primeng/table';
+import { Table, TableModule } from 'primeng/table';
 
 @Component({
   selector: 'app-job-descriptions-table',
@@ -9,5 +9,13 @@ import { TableModule } from 'primeng/table';
   styleUrl: './job-descriptions-table.scss',
 })
 export class JobDescriptionsTable {
+  @ViewChild(Table) private table!: Table;
   data = input.required<JobDescription[]>();
+
+  constructor() {
+    effect(() => {
+      this.data();
+      this.table?.scrollTo({ top: 0 });
+    });
+  }
 }

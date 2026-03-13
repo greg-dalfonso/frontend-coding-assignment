@@ -39,11 +39,22 @@ export class JobDescriptionsBarChart {
       },
       legend: {
         show: true,
-        bottom: 0,
+        top: 0,
         data: [{ name: '# of Job Descriptions', itemStyle: { color: barColorDefault } }],
         selectedMode: false,
       },
-      grid: { left: 40, right: 16, top: 16, bottom: 100 },
+      dataZoom: [
+        {
+          type: 'slider',
+          xAxisIndex: 0,
+          startValue: Math.max(0, data.length - 12),
+          endValue: data.length - 1,
+          bottom: 25,
+          brushSelect: false,
+        },
+        { type: 'inside', xAxisIndex: 0, zoomLock: true },
+      ],
+      grid: { left: 40, right: 16, top: 36, bottom: 125 },
       xAxis: {
         type: 'category',
         data: data.map(({ month, year }) => this.formatMonth.format(new Date(year, month))),
@@ -52,14 +63,14 @@ export class JobDescriptionsBarChart {
         axisLabel: { rotate: 45, cursor: 'pointer' } as object,
         triggerEvent: true,
       },
-      yAxis: { type: 'value', splitLine: { show: true } },
+      yAxis: { type: 'value', splitLine: { show: true }, minInterval: 1 },
       series: [
         {
           name: '# of Job Descriptions',
           type: 'bar',
-          data: data.map(({ count }, i) => ({
+          data: data.map(({ count }) => ({
             value: count,
-            itemStyle: { color: i === this.activeIndex() ? barColorActive : barColorDefault },
+            itemStyle: { color: barColorDefault },
           })),
           emphasis: { itemStyle: { color: barColorActive } },
           cursor: 'pointer',
@@ -67,6 +78,19 @@ export class JobDescriptionsBarChart {
       ],
     };
   });
+
+  protected activeSeriesColors = computed(
+    (): EChartsOption => ({
+      series: [
+        {
+          data: this.data().map(({ count }, i) => ({
+            value: count,
+            itemStyle: { color: i === this.activeIndex() ? barColorActive : barColorDefault },
+          })),
+        },
+      ],
+    })
+  );
 
   protected onChartClick(event: { dataIndex: number }): void {
     if (event.dataIndex === undefined) return;
