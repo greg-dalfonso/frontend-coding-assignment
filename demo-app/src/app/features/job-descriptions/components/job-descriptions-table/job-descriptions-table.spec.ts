@@ -83,11 +83,11 @@ describe('JobDescriptionsTable', () => {
     expect(footer.textContent).toContain('Displaying 1 of 1 rows');
   });
 
-  it('shows "No results found." when data is empty', () => {
+  it('shows "No job descriptions found." when data is empty', () => {
     fixture.componentRef.setInput('data', []);
     fixture.detectChanges();
     const cells: HTMLElement[] = Array.from(fixture.nativeElement.querySelectorAll('tbody td'));
-    expect(cells.some((td) => td.textContent?.trim() === 'No results found.')).toBeTrue();
+    expect(cells.some((td) => td.textContent?.trim() === 'No job descriptions found.')).toBeTrue();
   });
 
   it('scrolls to top when data changes', () => {
