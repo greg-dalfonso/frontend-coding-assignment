@@ -28,3 +28,12 @@
   background-color: rgba(250, 250, 250);
   border: solid 1px rgb(204, 204, 204);
 }
+
+
+.table-placeholder {
+  flex: 1;
+  display: grid;
+  place-content: center;
+  text-align: center;
+  color: #aaa;
+}

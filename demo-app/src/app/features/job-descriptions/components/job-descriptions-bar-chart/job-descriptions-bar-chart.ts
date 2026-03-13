@@ -49,7 +49,7 @@ export class JobDescriptionsBarChart {
           xAxisIndex: 0,
           startValue: Math.max(0, data.length - 12),
           endValue: data.length - 1,
-          bottom: 25,
+          bottom: 16,
           brushSelect: false,
         },
         { type: 'inside', xAxisIndex: 0, zoomLock: true },

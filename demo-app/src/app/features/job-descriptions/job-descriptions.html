@@ -28,7 +28,9 @@
         [data]="selectedJobs()"
       ></app-job-descriptions-table>
     } @else {
-      <p>Select a bar from the chart above to view details.</p>
+      <div class="table-placeholder">
+        <p>Click a bar on the chart above to view more details.</p>
+      </div>
     }
   }
 </div>
