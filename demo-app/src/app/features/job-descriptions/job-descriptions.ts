@@ -3,13 +3,13 @@ import { JobDescriptionsBarChart } from './components/job-descriptions-bar-chart
 import { JobDescriptionsTable } from './components/job-descriptions-table/job-descriptions-table';
 import { HttpClient } from '@angular/common/http';
 import { mockJobDescriptions } from './mocks/job-descriptions.mock';
-import { JobDescriptionsByMonth } from './types/job-descriptions.type';
+import { MonthGroup } from './types/job-descriptions.type';
 import { toJobDescriptionsByMonth } from './utils/job-descriptions.util';
 
 type JobDescriptionsState =
   | { status: 'loading' }
   | { status: 'error'; error: string }
-  | { status: 'done'; response: JobDescriptionsByMonth };
+  | { status: 'done'; response: MonthGroup[] };
 
 @Component({
   selector: 'app-job-descriptions',
@@ -26,20 +26,17 @@ export class JobDescriptions {
     return state.status === 'done' ? state.response : null;
   });
 
-  protected monthCounts = computed(() => {
-    const response = this.response();
-    if (!response) return [];
-    return Array.from({ length: 12 }, (_, month) => ({
-      month,
-      count: response[month]?.jobDescriptions.length ?? 0,
-    }));
-  });
+  protected monthCounts = computed(() =>
+    this.response()?.map(({ month, year, jobDescriptions }) => ({
+      month, year, count: jobDescriptions.length,
+    })) ?? []
+  );
 
   protected hasData = computed(() => this.monthCounts().some(({ count }) => count > 0));
 
   protected selectedJobs = computed(() => {
-    const month = this.monthSelected();
-    return month !== null ? (this.response()?.[month]?.jobDescriptions ?? []) : [];
+    const i = this.monthSelected();
+    return i !== null ? (this.response()?.[i]?.jobDescriptions ?? []) : [];
   });
 
   constructor(

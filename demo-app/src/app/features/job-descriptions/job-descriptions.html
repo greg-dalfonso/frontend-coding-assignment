@@ -19,7 +19,7 @@
     <app-job-descriptions-bar-chart
       class="chart"
       [data]="monthCounts()"
-      (monthSelected)="monthSelected.set($event)"
+      (barClicked)="monthSelected.set($event)"
     ></app-job-descriptions-bar-chart>
 
     @if (monthSelected() != null) {

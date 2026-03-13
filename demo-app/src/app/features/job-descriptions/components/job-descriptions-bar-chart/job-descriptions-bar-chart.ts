@@ -4,6 +4,7 @@ import { ChartData, ChartOptions } from 'chart.js';
 
 export interface MonthCount {
   month: number;
+  year: number;
   count: number;
 }
 
@@ -19,7 +20,7 @@ const barColorActive = 'rgb(78, 157, 168)';
 export class JobDescriptionsBarChart {
   @ViewChild(UIChart) private chartRef!: UIChart;
   data = input.required<MonthCount[]>();
-  @Output() monthSelected: EventEmitter<number> = new EventEmitter();
+  @Output() barClicked: EventEmitter<number> = new EventEmitter();
 
   private activeIndex: number | null = null;
 
@@ -59,10 +60,10 @@ export class JobDescriptionsBarChart {
   protected chartData = computed((): ChartData<'bar'> => {
     // Using this to get month names for the user's current locale. Overkill for this demo app
     // but something I would consider for production application with international users.
-    const formatMonth = new Intl.DateTimeFormat('default', { month: 'long' });
+    const formatMonth = new Intl.DateTimeFormat('default', { month: 'short', year: 'numeric' });
 
     return {
-      labels: this.data().map(({ month }) => formatMonth.format(new Date(2000, month))),
+      labels: this.data().map(({ month, year }) => formatMonth.format(new Date(year, month))),
       datasets: [{ data: this.data().map(({ count }) => count), backgroundColor: barColorDefault }],
     };
   });
@@ -70,7 +71,7 @@ export class JobDescriptionsBarChart {
   protected onBarClick(event: { element: { index: number } }): void {
     const index = event.element.index;
     this.activeIndex = index;
-    this.monthSelected.emit(this.data()[index].month);
+    this.barClicked.emit(index);
 
     // Update colors directly on the Chart.js instance to avoid re-rendering the chart.
     this.chartRef.chart.data.datasets[0].backgroundColor = this.data().map((_, i) =>

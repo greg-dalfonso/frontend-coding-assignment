@@ -7,10 +7,10 @@
 >
   <ng-template #header>
     <tr style="background-color: #f9fafb">
-      <th style="min-width: 250px">Title</th>
-      <th style="min-width: 200px">Organization</th>
-      <th style="min-width: 150px">Location</th>
-      <th style="min-width: 150px">Date Published</th>
+      <th pSortableColumn="websiteTitle" style="min-width: 250px">Title <p-sortIcon field="websiteTitle" /></th>
+      <th pSortableColumn="websiteOrganization" style="min-width: 200px">Organization <p-sortIcon field="websiteOrganization" /></th>
+      <th pSortableColumn="websiteLocation" style="min-width: 150px">Location <p-sortIcon field="websiteLocation" /></th>
+      <th pSortableColumn="websiteDatePublishedRaw" style="min-width: 150px">Date Published <p-sortIcon field="websiteDatePublishedRaw" /></th>
     </tr>
   </ng-template>
   <ng-template #body let-job>

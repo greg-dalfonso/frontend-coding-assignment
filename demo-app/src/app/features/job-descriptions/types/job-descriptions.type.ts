@@ -1,15 +1,21 @@
 export interface JobDescriptionApiResponse {
   count: number;
-  searches: JobDescription[];
+  searches: ApiJobDescription[];
 }
 
-export interface JobDescription {
+export interface ApiJobDescription {
   websiteTitle: string;
   websiteLocation: string;
   websiteOrganization: string;
   websiteDatePublished: string;
 }
 
-export interface JobDescriptionsByMonth {
-  [month: number]: { jobDescriptions: JobDescription[] };
+export interface JobDescription extends ApiJobDescription {
+  websiteDatePublishedRaw: string;
+}
+
+export interface MonthGroup {
+  month: number; // 0-indexed, matches Date.getMonth()
+  year: number;
+  jobDescriptions: JobDescription[];
 }
