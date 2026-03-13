@@ -31,6 +31,12 @@
       <td>{{ job.websiteDatePublished }}</td>
     </tr>
   </ng-template>
+  <!-- Empty Message Template (the placeholder) -->
+  <ng-template pTemplate="emptymessage" let-columns>
+    <tr>
+      <td colspan="4" style="text-align: center; color: #888">No job descriptions found.</td>
+    </tr>
+  </ng-template>
   <ng-template #summary>
     <div class="footer">Displaying {{ data().length }} of {{ data().length }} rows.</div>
   </ng-template>

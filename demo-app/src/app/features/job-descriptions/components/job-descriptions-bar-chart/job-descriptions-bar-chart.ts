@@ -8,8 +8,8 @@ export interface MonthCount {
   count: number;
 }
 
-const barColorDefault = 'rgb(175, 214, 218)';
-const barColorActive = 'rgb(78, 157, 168)';
+export const barColorDefault = 'rgb(175, 214, 218)';
+export const barColorActive = 'rgb(78, 157, 168)';
 
 @Component({
   selector: 'app-job-descriptions-bar-chart',
@@ -51,6 +51,7 @@ export class JobDescriptionsBarChart {
           endValue: data.length - 1,
           bottom: 16,
           brushSelect: false,
+          labelFormatter: () => '',
         },
         { type: 'inside', xAxisIndex: 0, zoomLock: true },
       ],

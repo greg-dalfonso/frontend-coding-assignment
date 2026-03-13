@@ -19,7 +19,6 @@
   padding-left: 1rem;
 }
 
-
 .chart,
 .table {
   flex: 1;
@@ -29,11 +28,29 @@
   border: solid 1px rgb(204, 204, 204);
 }
 
-
 .table-placeholder {
   flex: 1;
   display: grid;
   place-content: center;
   text-align: center;
   color: #aaa;
+}
+
+.status-message {
+  height: 100%;
+  display: grid;
+  place-content: center;
+  // This is used to prevent the loading indicator from flashing briefly on quick loads (the expected case).
+  // It will only show if loading is taking longer than expected.
+  animation: appear 0s 250ms both;
+}
+
+@keyframes appear {
+  from { visibility: hidden; }
+  to { visibility: visible; }
+}
+
+.loading-indicator {
+  display: flex;
+  align-items: center;
 }

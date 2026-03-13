@@ -13,6 +13,7 @@ export class JobDescriptionsTable {
   data = input.required<JobDescription[]>();
 
   constructor() {
+    // Resets scroll position on table everytime table data changes
     effect(() => {
       this.data();
       this.table?.scrollTo({ top: 0, left: 0 });

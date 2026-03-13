@@ -3,8 +3,12 @@ import { JobDescriptionApiResponse, MonthGroup } from '../types/job-descriptions
 /**
  * Maps the JobDescriptionApiResponse to a sorted MonthGroup array spanning the full
  * date range of the data, with empty arrays for months that have no job descriptions.
+ *
  * Accepts an optional date formatter, otherwise it defaults to normalizing the date
  * for user locale.
+ *
+ * IMPORTANT: This utility assumes users will want to see published dates in their local timezone
+ *            and handles that conversion implicitly.
  */
 export function toJobDescriptionsByMonth(
   res: JobDescriptionApiResponse,

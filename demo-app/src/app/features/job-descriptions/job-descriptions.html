@@ -3,19 +3,32 @@
 <h2 class="title">Job Descriptions</h2>
 
 <div class="content">
-  @if (data.status === 'loading') {
-    <p>Loading...</p>
+  @if (!hasData()) {
+    <div class="status-message">
+      @if (data.status === 'error') {
+        <p style="color: red">{{ data.message }}</p>
+        <p-button label="Try Again" [ngStyle]="{ textAlign: 'center' }" (onClick)="loadData()" />
+      }
+
+      @if (data.status === 'loading') {
+        <p-progress-spinner
+          strokeWidth="5"
+          fill="transparent"
+          animationDuration="1s"
+          [style]="{ width: '40px', height: '40px' }"
+        />
+        <p>Fetching job descriptions...</p>
+      }
+
+      @if (data.status === 'done') {
+        <div class="status-message">
+          <p style="color: #888888">No Results found.</p>
+        </div>
+      }
+    </div>
   }
 
-  @if (data.status === 'error') {
-    <p>Failed to load job descriptions. Please Try Again.</p>
-  }
-
-  @if (data.status === 'done' && !hasData()) {
-    <p>No Results found.</p>
-  }
-
-  @if (data.status === 'done' && hasData()) {
+  @if (hasData()) {
     <app-job-descriptions-bar-chart
       class="chart"
       [data]="monthCounts()"

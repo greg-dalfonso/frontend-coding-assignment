@@ -1,5 +1,6 @@
+import { provideZonelessChangeDetection } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { provideHttpClient } from '@angular/common/http';
 import { JobDescriptions } from './job-descriptions';
 
 describe('JobDescriptions', () => {
@@ -9,6 +10,7 @@ describe('JobDescriptions', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [JobDescriptions],
+      providers: [provideZonelessChangeDetection(), provideHttpClient()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(JobDescriptions);
