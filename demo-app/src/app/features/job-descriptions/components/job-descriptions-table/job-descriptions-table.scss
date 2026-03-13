@@ -1,0 +1,22 @@
+th {
+  white-space: nowrap;
+}
+
+p-sortIcon {
+  padding-left: 0.5rem;
+}
+
+.footer {
+  font-size: 0.85rem;
+  padding: 0.5rem;
+  border: solid 1px rgb(204, 204, 204);
+  background-color: white;
+}
+
+:host {
+  // Last row of the table does not have a border. This is a workaround for the limitations
+  // of p-table to simulate a border to the last row.
+  ::ng-deep .p-datatable-scrollable-table {
+    border-bottom: solid 1px rgb(225, 225, 225);
+  }
+}

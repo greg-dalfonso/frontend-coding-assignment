@@ -1,0 +1,49 @@
+@let templateData = state();
+
+<h2 class="title">Job Descriptions</h2>
+
+<div class="content">
+  @if (!data()?.length) {
+    <div class="status-message">
+      @if (templateData.status === 'error') {
+        <p style="color: red">{{ templateData.message }}</p>
+        <p-button label="Try Again" [ngStyle]="{ textAlign: 'center' }" (onClick)="loadData()" />
+      }
+
+      @if (templateData.status === 'loading') {
+        <p-progress-spinner
+          strokeWidth="5"
+          fill="transparent"
+          animationDuration="1s"
+          [style]="{ width: '40px', height: '40px' }"
+        />
+        <p>Fetching job descriptions...</p>
+      }
+
+      @if (templateData.status === 'done') {
+        <div class="status-message">
+          <p style="color: #888888">No Results found.</p>
+        </div>
+      }
+    </div>
+  }
+
+  @if (data()?.length) {
+    <app-job-descriptions-bar-chart
+      class="chart"
+      [data]="monthCounts()"
+      (barClicked)="monthSelected.set($event)"
+    ></app-job-descriptions-bar-chart>
+
+    @if (monthSelected() != null) {
+      <app-job-descriptions-table
+        class="table"
+        [data]="selectedJobs()"
+      ></app-job-descriptions-table>
+    } @else {
+      <div class="table-placeholder">
+        <p>Click a bar on the chart above to view job description details.</p>
+      </div>
+    }
+  }
+</div>
