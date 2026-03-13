@@ -1,2 +1,1 @@
-<p-chart [style.height.%]="100" type="bar" [data]="chartData()" [options]="chartOptions" (onDataSelect)="onBarClick($event)" />
-
+<div echarts [options]="chartOptions()" (chartClick)="onChartClick($event)" style="height: 100%"></div>
