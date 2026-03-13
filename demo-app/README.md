@@ -1,59 +1,74 @@
-# DemoApp
+# Demo App
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.8.
+An Angular application for browsing and filtering job descriptions by month.
 
-## Development server
+## Requirements
 
-To start a local development server, run:
+- [Node.js](https://nodejs.org/) v22+
+- [Docker](https://www.docker.com/) (optional, for containerized runs)
 
-```bash
-ng serve
+## Project structure
+
+```
+frontend-coding-assignment/
+└── demo-app/        ← all commands below are run from this directory
+    ├── src/
+    ├── package.json
+    └── Dockerfile
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Installation
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+From the `demo-app` directory, install dependencies:
 
 ```bash
-ng generate component component-name
+cd demo-app
+npm install
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Running locally
 
 ```bash
-ng generate --help
+npm start
 ```
 
-## Building
+Open `http://localhost:4200`. The app reloads automatically on file changes.
 
-To build the project run:
+## Running tests
 
 ```bash
-ng build
+npm test
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+This opens a Chrome browser and runs tests in watch mode. To run headless without watch (e.g. in CI):
 
 ```bash
-ng test
+npm test -- --no-watch --browsers=ChromeHeadless
 ```
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
+## Building for production
 
 ```bash
-ng e2e
+npm run build
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+Output is written to `demo-app/dist/`. This is not required for local development.
 
-## Additional Resources
+## Docker
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Docker builds the production bundle and serves it via nginx — no local Node.js install required.
+
+From the `demo-app` directory:
+
+```bash
+docker build -t demo-app .
+docker run -p 8080:80 demo-app
+```
+
+Or as a single command:
+
+```bash
+docker build -t demo-app . && docker run -p 8080:80 demo-app
+```
+
+Open `http://localhost:8080`.
