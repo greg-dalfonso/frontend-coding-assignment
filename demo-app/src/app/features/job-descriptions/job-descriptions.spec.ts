@@ -129,6 +129,9 @@ describe('JobDescriptions', () => {
       (component as any).loadData();
       fixture.detectChanges();
       httpTesting.expectOne(API_URL).flush(mockResponse);
+      fixture.detectChanges();
+      const chart = fixture.nativeElement.querySelector('app-job-descriptions-bar-chart');
+      expect(chart).toBeTruthy();
     });
   });
 });

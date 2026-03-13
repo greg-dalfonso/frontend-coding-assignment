@@ -23,6 +23,12 @@ export class JobDescriptionsBarChart {
   @Output() barClicked: EventEmitter<number> = new EventEmitter();
 
   private activeIndex = signal<number | null>(null);
+
+  // Hover effects do not work reliably on touch devices. Sometimes the 'touchleave' event is not triggered,
+  // causing 2 bars to appear active at the same time. To avoid this we disable emphasis on touch devices,
+  // so bars will only be highlighted when clicked.
+  private readonly isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
+
   private readonly formatMonth = new Intl.DateTimeFormat('default', {
     month: 'short',
     year: 'numeric',
@@ -73,7 +79,7 @@ export class JobDescriptionsBarChart {
             value: count,
             itemStyle: { color: barColorDefault },
           })),
-          emphasis: { itemStyle: { color: barColorActive } },
+          emphasis: { disabled: this.isTouchDevice, itemStyle: { color: barColorActive } },
           cursor: 'pointer',
         },
       ],
