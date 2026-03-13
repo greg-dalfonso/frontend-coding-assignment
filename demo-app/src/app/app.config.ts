@@ -15,6 +15,7 @@ const AppTheme = definePreset(Aura, {
         selectedBackground: 'rgb(250, 250, 250)',
         hoverColor: '{content.color}',
         selectedColor: '{content.color}',
+        padding: '0.5rem',
       },
       sortIcon: {
         color: '{content.color}',

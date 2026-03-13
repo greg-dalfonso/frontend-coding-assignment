@@ -15,7 +15,7 @@ export class JobDescriptionsTable {
   constructor() {
     effect(() => {
       this.data();
-      this.table?.scrollTo({ top: 0 });
+      this.table?.scrollTo({ top: 0, left: 0 });
     });
   }
 }

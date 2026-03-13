@@ -31,11 +31,7 @@
       <td>{{ job.websiteDatePublished }}</td>
     </tr>
   </ng-template>
-  <ng-template #footer>
-    <tr>
-      <td colspan="4" [style.padding.rem]="0.5" [style.font-size.rem]="0.9">
-        Displaying {{ data().length }} of {{ data().length }} rows.
-      </td>
-    </tr>
+  <ng-template #summary>
+    <div class="footer">Displaying {{ data().length }} of {{ data().length }} rows.</div>
   </ng-template>
 </p-table>
