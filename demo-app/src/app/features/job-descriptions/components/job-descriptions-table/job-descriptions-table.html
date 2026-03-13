@@ -8,11 +8,19 @@
   [sortOrder]="-1"
 >
   <ng-template #header>
-    <tr style="background-color: #f9fafb">
-      <th pSortableColumn="websiteTitle" style="min-width: 250px">Title <p-sortIcon field="websiteTitle" /></th>
-      <th pSortableColumn="websiteOrganization" style="min-width: 200px">Organization <p-sortIcon field="websiteOrganization" /></th>
-      <th pSortableColumn="websiteLocation" style="min-width: 150px">Location <p-sortIcon field="websiteLocation" /></th>
-      <th pSortableColumn="websiteDatePublishedRaw" style="min-width: 150px">Date Published <p-sortIcon field="websiteDatePublishedRaw" /></th>
+    <tr>
+      <th pSortableColumn="websiteTitle" style="min-width: 250px">
+        Title <p-sortIcon field="websiteTitle" />
+      </th>
+      <th pSortableColumn="websiteOrganization" style="min-width: 200px">
+        Organization <p-sortIcon field="websiteOrganization" />
+      </th>
+      <th pSortableColumn="websiteLocation" style="min-width: 150px">
+        Location <p-sortIcon field="websiteLocation" />
+      </th>
+      <th pSortableColumn="websiteDatePublishedRaw" style="min-width: 150px">
+        Date Published <p-sortIcon field="websiteDatePublishedRaw" />
+      </th>
     </tr>
   </ng-template>
   <ng-template #body let-job>
@@ -21,6 +29,13 @@
       <td>{{ job.websiteOrganization }}</td>
       <td>{{ job.websiteLocation }}</td>
       <td>{{ job.websiteDatePublished }}</td>
+    </tr>
+  </ng-template>
+  <ng-template #footer>
+    <tr>
+      <td colspan="4" [style.padding.rem]="0.5" [style.font-size.rem]="0.9">
+        Displaying {{ data().length }} of {{ data().length }} rows.
+      </td>
     </tr>
   </ng-template>
 </p-table>

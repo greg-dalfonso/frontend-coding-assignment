@@ -10,13 +10,21 @@ const AppTheme = definePreset(Aura, {
   components: {
     datatable: {
       headerCell: {
-        hoverBackground: '{content.background}',
+        background: 'rgb(250, 250, 250)',
+        hoverBackground: 'rgb(250, 250, 250)',
+        selectedBackground: 'rgb(250, 250, 250)',
         hoverColor: '{content.color}',
-        selectedBackground: '{content.background}',
         selectedColor: '{content.color}',
       },
       sortIcon: {
         color: '{content.color}',
+      },
+      colorScheme: {
+        light: {
+          row: {
+            stripedBackground: 'rgb(253, 253, 253)',
+          },
+        },
       },
     },
   },
