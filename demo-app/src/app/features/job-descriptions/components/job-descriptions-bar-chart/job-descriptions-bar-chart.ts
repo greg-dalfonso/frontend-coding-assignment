@@ -1,6 +1,7 @@
 import { Component, computed, EventEmitter, input, Output, signal } from '@angular/core';
 import { NgxEchartsDirective, provideEchartsCore } from 'ngx-echarts';
 import { EChartsOption } from 'echarts';
+import { brandColor } from '../../../../theme.constants';
 
 export interface MonthCount {
   month: number;
@@ -9,7 +10,7 @@ export interface MonthCount {
 }
 
 export const barColorDefault = 'rgb(175, 214, 218)';
-export const barColorActive = 'rgb(78, 157, 168)';
+export const barColorActive = brandColor;
 
 @Component({
   selector: 'app-job-descriptions-bar-chart',

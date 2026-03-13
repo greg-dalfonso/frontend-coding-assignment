@@ -5,7 +5,6 @@ import { JobDescriptionApiResponse } from '../types/job-descriptions.type';
 const fixedFormatter = new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' });
 
 // Matches the real API format: midnight UTC with +0000 offset.
-// Using mid-month dates avoids month-boundary edge cases with timezone conversion.
 function apiDate(year: number, month: number, day: number): string {
   return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}T12:00:00.000+0000`;
 }

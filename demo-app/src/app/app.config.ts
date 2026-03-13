@@ -9,6 +9,7 @@ import { providePrimeNG } from 'primeng/config';
 import { definePreset } from '@primeuix/themes';
 import Aura from '@primeuix/themes/aura';
 import { routes } from './app.routes';
+import { brandColor, brandColorActive, brandColorHover } from './theme.constants';
 
 const AppTheme = definePreset(Aura, {
   components: {
@@ -20,12 +21,12 @@ const AppTheme = definePreset(Aura, {
         light: {
           root: {
             primary: {
-              background: 'rgb(78, 157, 168)',
-              hoverBackground: 'rgb(60, 138, 149)',
-              activeBackground: 'rgb(50, 120, 130)',
-              borderColor: 'rgb(78, 157, 168)',
-              hoverBorderColor: 'rgb(60, 138, 149)',
-              activeBorderColor: 'rgb(50, 120, 130)',
+              background: brandColor,
+              hoverBackground: brandColorHover,
+              activeBackground: brandColorActive,
+              borderColor: brandColor,
+              hoverBorderColor: brandColorHover,
+              activeBorderColor: brandColorActive,
               color: '#ffffff',
               hoverColor: '#ffffff',
               activeColor: '#ffffff',
@@ -38,10 +39,10 @@ const AppTheme = definePreset(Aura, {
       colorScheme: {
         light: {
           root: {
-            colorOne: 'rgb(78, 157, 168)',
-            colorTwo: 'rgb(78, 157, 168)',
-            colorThree: 'rgb(78, 157, 168)',
-            colorFour: 'rgb(78, 157, 168)',
+            colorOne: brandColor,
+            colorTwo: brandColor,
+            colorThree: brandColor,
+            colorFour: brandColor,
           },
         },
       },
