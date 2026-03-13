@@ -26,10 +26,13 @@ export class JobDescriptions {
     return state.status === 'done' ? state.response : null;
   });
 
-  protected monthCounts = computed(() =>
-    this.response()?.map(({ month, year, jobDescriptions }) => ({
-      month, year, count: jobDescriptions.length,
-    })) ?? []
+  protected monthCounts = computed(
+    () =>
+      this.response()?.map(({ month, year, jobDescriptions }) => ({
+        month,
+        year,
+        count: jobDescriptions.length,
+      })) ?? []
   );
 
   protected hasData = computed(() => this.monthCounts().some(({ count }) => count > 0));
